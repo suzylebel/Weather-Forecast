@@ -170,11 +170,22 @@
                 $.ajax({
                     url: queryURLForecast,
                     method: "GET",
-                }).then(function (response3){
-                    console.log(response3);
+                }).then(function (response){
+                    console.log(response);
                 })
 
-                // var ForecastCityName = response3.city.name
+
+                // var forecastDiv = $("<div class='forecastDiv'>");
+                // var forecastCityname = response.city.name;
+                // var futureDate = response.list[0].dt_txt;
+                // console.log(futureDate);
+
+
+                // var pTwoText = ((cityBigname) + (" ") + ("(") + (CurrentDate) + (")"));
+
+                // var pTwoTextEl = $("<h4>").addClass("futureDay").text(pTwoText);
+                // forecastDiv.append(pTwoTextEl);
+                
 
 
                 $("#cities-view").prepend(cityDiv);
