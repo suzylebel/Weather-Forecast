@@ -1,0 +1,35 @@
+.city {
+    background-color: #e7e7e7; 
+    border: 2px #e7e7e7;
+    font-size: 20px;
+    width: 200px;
+    display: block
+
+    
+}
+
+.green {
+    background-color: green;
+    font-size: 20px;
+}
+
+.yellow {
+    background-color: yellow;
+
+}
+
+.red {
+    background-color: red;
+
+}
+
+#city-form {
+    font-size: 12px;
+}
+
+.currentDay {
+    font-size: 30px;
+    color: black;
+    text-emphasis: bold 1px;
+
+}

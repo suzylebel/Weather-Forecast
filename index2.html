@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Weather</title>
+    <style type="text/css">
+
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="./style2.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg d-flex justify-content-center navbar-dark bg-dark">
+        <a class="navbar-brand" href="./index2.html">Weather Dashboard</a>
+
+    </nav>
+
+    <div class="row p-5 pb-2 d-flex">
+        <div class="col-md-4">
+            <h3>Search for a City!</h>
+                <br>
+                <!-- Rendered Buttons will get Dumped Here  -->
+                <form id="city-form">
+                    <!-- <label for="city-input">Search a city!</label>
+                <br> -->
+
+                    <input type="text" id="city-input">
+                    <br>
+                    <br>
+                    <!-- Button triggers new city to be added -->
+                    <input type="button" class="btn btn-primary add-city" type="submit" value="Search a city">
+                </form>
+                <div class="card-header" style="width: 20rem;">
+                    <ul id="buttons-view" class="list-group list-group-flush btn-group-vertical ">
+                    </ul>
+                </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card border mb-3" style="max-width: 30rem;">
+                <div class="add-city"></div>
+                <div id="hideonload" class="card-body text-info">
+                    <p id="cities-view" class="card-text"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div id="fiveDay-view">
+
+        </div>
+
+    </div>
+    <!-- <div class ="row">
+          <div class="col-md-8 justify-content-right">
+            <div class="card border-info mb-3" style="max-width: 10rem;">
+                <div class="card-header"></div>
+                <div class="card-body text-info">
+                    <h5 class="card-title"></h5>
+                    <p id="fiveDay-view" class="card-text">.</p>
+                </div>
+            </div>
+
+          </div>
+
+
+
+      </div>  -->
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script type="text/javascript">
+
+
+        // function hideonload(){
+        // $("#hideonload").css("display","block")
+        // }
+
+        var cities = [];
+
+        function displayCityInfo() {
+
+            var city = $(this).attr("data-name");
+            var APIkey = "&appid=3ab769e1d5edf7b37431bdd5400d6c70"
+            var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + APIkey;
+
+
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).then(function (response) {
+                // $("#cities-view").text(JSON.stringify(response));
+                console.log(response);
+
+                var cityDiv = $("<div class='cityDiv'>");
+                var cityBigname = response.name;
+                var CurrentDate = moment().format('l');
+
+                var pOneText = ((cityBigname) + (" ") + ("(") + (CurrentDate) + (")"));
+
+                var pOne = $("<h4>").addClass("currentDay").text(pOneText);
+                cityDiv.append(pOne);
+
+                // weather icon
+                let dayIcon = response.weather[0].icon;
+                let dayWeatherIcon = "http://openweathermap.org/img/wn/" + dayIcon + ".png";
+                let dayIconEl = $("<img/>", {
+                    id: "weather-icon",
+                    src: dayWeatherIcon,
+                    width: 60
+                })
+
+                cityDiv.append(dayIconEl);
+
+
+                var createBreak = $("<br>");
+                cityDiv.append(createBreak);
+
+                var cityTemp = response.main.temp;
+                var cityTempEl = $("<p>").html("Temp: " + ((cityTemp - 273.15) * 1.80 + 32).toFixed(1) + ("&deg;F"));
+
+                cityDiv.append(cityTempEl);
+
+
+                var humidity = response.main.humidity;
+                var humidtyEl = $("<p>").html("Humidty: " + humidity + ("%"));
+
+                cityDiv.append(humidtyEl);
+
+                var windSpeed = response.wind.speed;
+                var windSpeedEl = $("<p>").text("Wind Speed: " + windSpeed + " m/s");
+                cityDiv.append(windSpeedEl);
+
+
+
+                var lat = response.coord.lat;
+                var lon = response.coord.lon;
+
+
+                var queryURLuv = "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=3ab769e1d5edf7b37431bdd5400d6c70";
+
+                var queryURLForecast = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=3ab769e1d5edf7b37431bdd5400d6c70";
+
+                $.ajax({
+                    url: queryURLuv,
+                    method: "GET",
+                }).then(function (res) {
+                    console.log(res);
+                    var uvI = res.value;
+
+                    $(uvI).addClass("green");
+
+                    // if (uvI.innerHTML < ("3.00")) {
+                    //     'green'
+                    //     })
+                    // }
+                    // 0-2 green  3-5 yellow 6+ Red 
+
+                    $(".uvIndex").text("UV Index: " + uvI);
+                    console.log(uvI);
+
+                    var uvEl = $("<p>").addClass("uvBox").text("UV Index: " + uvI);
+                    cityDiv.append(uvEl);
+                    
+                });
+
+                $.ajax({
+                    url: queryURLForecast,
+                    method: "GET",
+                }).then(function (response3){
+                    console.log(response3);
+                })
+
+                // var ForecastCityName = response3.city.name
+
+
+                $("#cities-view").prepend(cityDiv);
+
+            });
+        }
+
+
+
+
+
+        // if (uvI > parseInt(2.00)) {
+        //     uvEl.attr({
+        //         "class": "yellow"
+        //     }
+
+
+        // else if (uvI < parseInt(2.00)) {
+        //     uvEl.attr({
+        //         "class": "green"
+        //     }
+
+        //      
+
+        // function displayFiveDay () {
+        //             // var city = $(this).attr("data-name");
+        //             var cityInput = $("#search-city").val();
+        //             var FiveDayURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityInput + "&appid=3ab769e1d5edf7b37431bdd5400d6c70";
+
+        //             $.ajax({
+        //                 url: FiveDayURL,
+        //                 method: "GET"
+        //             }).then(function (fiveDayForecast) {
+        //                 console.log(fiveDayForecast);
+        //         //         $("#cities-view").text(JSON.stringify(fiveDayForecast));
+
+        //             });
+
+        //          }
+
+        //          var cityBigname = response.name;
+
+        //     response.forEach(function (fiveDay) {
+        // // console.log(thishour);
+        // var fiveDayBox = $("<div>").attr({
+        //     "class": "row",
+        //     "id": "fiveDayForecast",
+        // });
+
+        // var cityFiveDay = response;
+        //     var pCity = $("<header>").addClass("thisCity").text(cityFiveDay);
+
+        //     cityFiveDay.append(pCity);
+
+        //     $("#fiveDay-view").append(fiveDayBox); 
+        // });
+        function storeCities() {
+            // Stringify and send cities in localStorage 
+            localStorage.setItem("cities", JSON.stringify(cities));
+        }
+        // pulling the coppy of the preset cities from Local storage
+        function citiesFromStorage() {
+            // retrive cities from storage
+            var storedResults = JSON.parse(localStorage.getItem("cities"));
+            // If  were retrieved from localStorage, update cities array it
+            if (storedResults !== null) {
+                cities = storedResults;
+            }
+
+        }
+
+
+
+        function renderButtons() {
+            $("#buttons-view").empty();
+            $("#cities-view").empty();
+
+
+            for (var i = 0; i < cities.length; i++) {
+                var a = $("<button>");
+                a.addClass("city");
+                a.addClass("btn");
+                a.addClass("btn-outline-info");
+                a.attr("data-name", cities[i]);
+                a.text(cities[i]);
+                $("#buttons-view").append(a);
+            }
+        }
+
+
+        $(".add-city").on("click", function (event) {
+            event.preventDefault();
+            storeCities ();
+
+
+            var city = $("#city-input").val().trim();
+
+
+            cities.push(city);
+            // console.log(cities);
+
+
+            renderButtons();
+        });
+
+
+
+        $(document).on("click", ".city", displayCityInfo);
+
+        renderButtons();
+
+
+
+    </script>
+
+</body>
+
+</html>
