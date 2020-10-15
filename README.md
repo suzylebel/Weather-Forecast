@@ -31,6 +31,8 @@ SO THAT I can plan a trip accordingly
 
 ## About the Project
 
+Explore the [Deployed Weather Forecast](https://suzylebel.github.io/Weather-Forecast/)
+
 The goal of this project was to edit files that were already given to us and use JQuery to create a functioning Day planner for our user to use. Using moment.js we were also able to color code the planner based on the users current time to show past, present and future! Local storage was also used so the users Planner is saved!
 
 Here is an image of what the project looks like: 
