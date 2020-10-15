@@ -1,85 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <title>Weather</title>
-    <style type="text/css">
-
-    </style>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="stylesheet" href="./style2.css">
-</head>
-
-<body>
-    <nav class="navbar navbar-expand-lg d-flex justify-content-center navbar-dark bg-dark">
-        <a class="navbar-brand" href="./index2.html">Weather Dashboard</a>
-
-    </nav>
-
-    <div class="row p-5 pb-2 d-flex">
-        <div class="col-md-4">
-            <h3>Search for a City!</h>
-                <br>
-                <!-- Rendered Buttons will get Dumped Here  -->
-                <form id="city-form">
-                    <!-- <label for="city-input">Search a city!</label>
-                <br> -->
-
-                    <input type="text" id="city-input">
-                    <br>
-                    <br>
-                    <!-- Button triggers new city to be added -->
-                    <input type="button" class="btn btn-primary add-city" type="submit" value="Search a city">
-                </form>
-                <div class="card-header" style="width: 20rem;">
-                    <ul id="buttons-view" class="list-group list-group-flush btn-group-vertical ">
-                    </ul>
-                </div>
-        </div>
-        <div class="col-md-8">
-            <div class="card border mb-3" style="max-width: 30rem;">
-                <div class="add-city"></div>
-                <div id="hideonload" class="card-body text-info">
-                    <p id="cities-view" class="card-text"></p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div id="fiveDay-view">
-
-        </div>
-
-    </div>
-    <!-- <div class ="row">
-          <div class="col-md-8 justify-content-right">
-            <div class="card border-info mb-3" style="max-width: 10rem;">
-                <div class="card-header"></div>
-                <div class="card-body text-info">
-                    <h5 class="card-title"></h5>
-                    <p id="fiveDay-view" class="card-text">.</p>
-                </div>
-            </div>
-
-          </div>
-
-
-
-      </div>  -->
-
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <script type="text/javascript">
-
-
-        // function hideonload(){
+ // function hideonload(){
         // $("#hideonload").css("display","block")
         // }
 
-        var cities = [];
+        var cities = ["Seattle",];
 
         function displayCityInfo() {
 
@@ -150,34 +73,109 @@
                 }).then(function (res) {
                     console.log(res);
                     var uvI = res.value;
-
-                    $(uvI).addClass("green");
-
-                    // if (uvI.innerHTML < ("3.00")) {
-                    //     'green'
-                    //     })
-                    // }
-                    // 0-2 green  3-5 yellow 6+ Red 
-
-                    $(".uvIndex").text("UV Index: " + uvI);
                     console.log(uvI);
 
-                    var uvEl = $("<p>").addClass("uvBox").text("UV Index: " + uvI);
-                    cityDiv.append(uvEl);
+                  
+
+                    // var uvEl = $("<span>").addClass("uvBox").html(uvI);
+                    // var indexColo    
+                    var uvEl = $("<p>").addClass("allBox").html("UV Index: " + uvI);
+
+                    if (uvI < (3.00)) {
+                        uvEl.attr("id", "green")
+                    }
+
+                    else if (uvI > 3 && uvI < 8) {
+                        uvEl.attr("id", "yellow")
+                    }
+
+                    else {
+                        uvEl.attr("id", "red")
+                    }
+
                     
+                
+
+
+                    cityDiv.append(uvEl);
+
+                    // card appending to DOM
+                    $("#cities-view").append(cityDiv);
+
+
+
                 });
+
+                  // 5 day forecast moment days: 
+                $("#forecast-1").text(moment().add(1, "d").format("l"));
+                $("#forecast-2").text(moment().add(2, "d").format("l"));
+                $("#forecast-3").text(moment().add(3, "d").format("l"));
+                $("#forecast-4").text(moment().add(4, "d").format("l"));
+                $("#forecast-5").text(moment().add(5, "d").format("l"));
+                
 
                 $.ajax({
                     url: queryURLForecast,
                     method: "GET",
-                }).then(function (response){
+                }).then(function (response) {
                     console.log(response);
+                
+                
+
+                let forecastTemp = [];
+               
+                let forecastHumidity = [];
+                
+                let forecastIcon = [];
+
+                
+                let futuredayWeatherIcon = "http://openweathermap.org/img/wn/" + forecastIcon + ".png";
+                let FutureDayIconEl = $("<img/>").html(futuredayWeatherIcon).attr("id", "future-weather-icon");
+                //     id: "weather-icon",
+                //     src: futuredayWeatherIcon,
+                //     width: 40
+                // })
+
+                for (let i = 0; i < response.list.length; i+= 8) {
+                  
+                        
+                        forecastTemp.push(response.list[i].main.temp);
+                        forecastHumidity.push(response.list[i].main.humidity);
+                        forecastIcon.push(response.list[i].weather[0].icon);
+                    // }
+                   
+
+
+                }
+                $(".forecast-day").each(function (array){
+                    $(this).html(forecastDay[array]);
                 })
+
+
+                console.log(forecastTemp);
+                $(".forecast-temp").each(function (array){
+                     $(this).html("Temp: " + ((forecastTemp[array] - 273.15) * 1.80 + 32).toFixed(0) + ("&deg;F"));
+                   
+
+                })
+                $(".forecast-humidity").each(function (array){
+                     $(this).text(forecastHumidity[array] + "%");
+
+                }) 
+                 $(".forecast-icon").attr("src", function (array){
+                    return "http://openweathermap.org/img/w/" + forecastIcon[array] + ".png";
+
+                })                
+                
+            })
+
+   
+
 
 
                 // var forecastDiv = $("<div class='forecastDiv'>");
                 // var forecastCityname = response.city.name;
-                // var futureDate = response.list[0].dt_txt;
+                // var futureDate = response.list[i].dt_txt;
                 // console.log(futureDate);
 
 
@@ -185,10 +183,10 @@
 
                 // var pTwoTextEl = $("<h4>").addClass("futureDay").text(pTwoText);
                 // forecastDiv.append(pTwoTextEl);
-                
 
 
-                $("#cities-view").prepend(cityDiv);
+
+
 
             });
         }
@@ -243,7 +241,9 @@
         //     $("#fiveDay-view").append(fiveDayBox); 
         // });
         function storeCities() {
-            // Stringify and send cities in localStorage 
+            // push cities inside this function
+
+
             localStorage.setItem("cities", JSON.stringify(cities));
         }
         // pulling the coppy of the preset cities from Local storage
@@ -276,10 +276,15 @@
         }
 
 
+        // REWORK THIS BELOW 
+
         $(".add-city").on("click", function (event) {
             event.preventDefault();
-            storeCities ();
+            displayCityInfo();
 
+            storeCities();
+
+            // create function for cityweatherfunction to "clearning the search a city value"
 
             var city = $("#city-input").val().trim();
 
@@ -292,15 +297,11 @@
         });
 
 
+        // wrap everything into a documnet on ready at top. on click will handle store city and call
+
 
         $(document).on("click", ".city", displayCityInfo);
+        // $(document).on("click", "fiveDayForecastBlock",)
 
         renderButtons();
 
-
-
-    </script>
-
-</body>
-
-</html>

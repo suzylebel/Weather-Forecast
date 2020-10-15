@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Weather</title>
+    <style type="text/css">
+
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="./Assets/style2.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg d-flex justify-content-center navbar-dark bg-dark">
+        <a class="navbar-brand" href="index.html">Weather Dashboard</a>
+
+    </nav>
+
+    <div class="container">
+    <div class="row p-5 pb- d-flex">
+        <div class="col-md-4">
+            <h3>Search for a City!</h>
+                <br>
+                <!-- Rendered Buttons will get Dumped Here  -->
+                <form id="city-form">
+                    <!-- <label for="city-input">Search a city!</label>
+                <br> -->
+
+                    <input type="text" id="city-input">
+                    <br>
+                    <br>
+                    <!-- Button triggers new city to be added -->
+                    <input type="button" class="btn btn-primary add-city" type="submit" value="Search a city">
+                </form>
+                <div class="card-header" style="width: 20rem;">
+                    <ul id="buttons-view" class="list-group list-group-flush btn-group-vertical ">
+                    </ul>
+                </div>
+        </div>
+        
+        <div class="col-md-8">
+            <div class="card border mb-3" style="max-width: 40rem;">
+                <div class="add-city"></div>
+                <div id="hideonload" class="card-body text-info">
+                    <p id="cities-view" class="card-text"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div id="fiveDay-view">
+
+        </div> -->
+
+    </div>
+    <main>
+        <div class="container">
+    <div class="row mt-3 fiveDayForecastBlock">
+        <div class="col">
+          <h3>5-day Forecast</h3>
+        </div>
+      </div>
+      <div class="row">
+            <div class="col-lg-2 mb-3">
+              <div class="card bg-primary">
+                <div class="card-body">
+                  <h5 class="card-title text-white"  id="forecast-1"></h5>
+                  <h5 class="card-title text-white"><img class="forecast-icon" /></h5>
+                  <p class="card-text text-white"> <span class="forecast-temp"></span></p>
+                  <p class="card-text text-white">Humidity: <span class="forecast-humidity"></span></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2 mb-3">
+              <div class="card bg-primary">
+                <div class="card-body">
+                  <h5 class="card-title text-white" id="forecast-2"></h5>
+                  <h5 class="card-title text-white"><img class="forecast-icon" /></h5>
+                  <p class="card-text text-white"> <span class="forecast-temp"></span></p>
+                  <p class="card-text text-white">Humidity: <span class="forecast-humidity"></span></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2 mb-3">
+              <div class="card bg-primary">
+                <div class="card-body">
+                  <h5 class="card-title text-white" id="forecast-3"></h5>
+                  <h5 class="card-title text-white"><img class="forecast-icon" /></h5>
+                  <p class="card-text text-white"> <span class="forecast-temp"></span></p>
+                  <p class="card-text text-white">Humidity: <span class="forecast-humidity"></span></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2 mb-3">
+              <div class="card bg-primary">
+                <div class="card-body">
+                  <h5 class="card-title text-white" id="forecast-4"></h5>
+                  <h5 class="card-title text-white"><img class="forecast-icon" /></h5>
+                  <p class="card-text text-white"> <span class="forecast-temp"></span></p>
+                  <p class="card-text text-white">Humidity: <span class="forecast-humidity"></span></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2 mb-3">
+              <div class="card bg-primary">
+                <div class="card-body">
+                  <h5 class="card-title text-white" id="forecast-5"></h5>
+                  <h5 class="card-title text-white"><img class="forecast-icon" /></h5>
+                  <p class="card-text text-white"> <span class="forecast-temp"></span></p>
+                  <p class="card-text text-white">Humidity: <span class="forecast-humidity"></span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+</div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="./Assets/script.js"></script>
+
+</body>
+
+</html>

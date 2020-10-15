@@ -8,18 +8,33 @@
     
 }
 
-.green {
+#green {
     background-color: green;
-    font-size: 20px;
+    border: 2px solid green;
+    width: 124px;
+    height: 24px;
+    color: white;
 }
 
-.yellow {
+#yellow {
     background-color: yellow;
-
+    border: 2px solid yellow;
+    width: 124px;
+    height: 24px;
+    color: black;
 }
 
-.red {
+#red {
     background-color: red;
+   border: 2px solid red; 
+   width: 124px;
+   height: 24px;
+   color: white;
+}
+
+#uvboxsize {
+    border: 1px solid black;
+    margin: 35px;
 
 }
 
